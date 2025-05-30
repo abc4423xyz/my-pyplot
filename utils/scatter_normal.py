@@ -3,10 +3,11 @@ from scipy import stats
 from matplotlib.ticker import MultipleLocator, LogLocator
 
 class PlotManager:
-    def __init__(self, ax, fontsize=12, linewidth=1.5, scale='linear',
+    def __init__(self, ax, fontsize=12, fontsize_s=10, linewidth=1.5, scale='linear',
                  xmin=None, xmax=None, ymin=None, ymax=None):
         self.ax = ax
         self.fontsize = fontsize
+        self.fontsize_s = fontsize_s
         self.linewidth = linewidth
         self.scale = scale
         self.xmin = xmin
@@ -81,7 +82,7 @@ class PlotManager:
 
         # 描画
         self.ax.fill_between(x_line, y_line - ci, y_line + ci, color=color, alpha=0.2, label="95% CI")
-        self.ax.plot(x_line, y_line, color=color, linewidth=1.5, label='回帰直線')
+        self.ax.plot(x_line, y_line, color=color, linewidth=self.linewidth, label='回帰直線')
 
         # 式とR^2の表示
         if force_intercept_zero:
@@ -90,7 +91,7 @@ class PlotManager:
             formula = f"$y = {a:.2f}x + {b:.2f}$\n$R^2 = {r2:.2f}$"
 
         self.ax.text(text_loc[0], text_loc[1], formula, transform=self.ax.transAxes,
-                fontsize=self.fontsize, ha='right', va='top',
+                fontsize=self.fontsize_s, ha='right', va='top',
                 fontdict={"math_fontfamily": "cm"})
         pass
 
